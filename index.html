@@ -1045,6 +1045,10 @@
       place-items: center;
       overflow: hidden;
       padding: 12px;
+      /* iOS Safari толук экран fix */
+      width: 100%;
+      height: 100%;
+      height: calc(var(--vh, 1vh) * 100);
       background:
         radial-gradient(ellipse at 50% 46%, rgba(224, 172, 92, .18), transparent 33rem),
         linear-gradient(180deg, #090908, #21150f 53%, #090908);
@@ -1054,7 +1058,7 @@
     .gate-scene {
       position: relative;
       width: min(100%, 520px);
-      height: min(100svh - 24px, 780px);
+      height: min(calc(var(--vh, 1svh) * 100 - 24px), 780px);
       min-height: 440px;
       perspective: 1200px;
       perspective-origin: 50% 52%;
@@ -1105,6 +1109,7 @@
       width: 100%;
       height: 100%;
       transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
     }
 
     .gate-sparkles {
@@ -1226,9 +1231,13 @@
         inset 0 0 28px 20px rgba(18, 9, 4, .4),
         0 5px 16px rgba(0, 0, 0, .48);
       backface-visibility: visible;
+      -webkit-backface-visibility: visible;
       transform: rotateY(0);
+      -webkit-transform: rotateY(0);
       transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
       transition: transform 1.9s cubic-bezier(.25, .1, .25, 1), filter 1.8s ease;
+      -webkit-transition: -webkit-transform 1.9s cubic-bezier(.25, .1, .25, 1), filter 1.8s ease;
     }
 
     .gate-leaf::before,
@@ -1734,8 +1743,8 @@
 
       .gate-scene {
         width: min(100%, 390px);
-        height: min(100svh - 24px, 780px);
-        min-height: 420px;
+        height: min(calc(var(--vh, 1svh) * 100 - 24px), 780px);
+        min-height: 460px;
       }
 
       .gate-frame {
@@ -1758,11 +1767,13 @@
       }
 
       .gate-plaque {
-        top: 20%;
-        min-height: 49px;
-        width: 84%;
+        top: 16%;
+        min-height: 44px;
+        width: 76%;
         padding-right: 14px;
         padding-left: 14px;
+        font-size: .58rem;
+        letter-spacing: .13em;
       }
 
       .gate-frame::before {
@@ -1778,8 +1789,9 @@
       }
 
       .gate-prompt {
-        bottom: 10%;
-        font-size: .65rem;
+        bottom: 8%;
+        font-size: .6rem;
+        letter-spacing: .12em;
       }
 
       .gate-welcome {
@@ -1788,8 +1800,16 @@
       }
 
       .gate-sconce {
-        width: 34px;
-        height: 52px;
+        width: 32px;
+        height: 48px;
+        font-size: 1rem;
+      }
+
+      .gate-lock {
+        width: clamp(64px, 17vw, 84px);
+        height: clamp(64px, 17vw, 84px);
+        font-size: clamp(1.1rem, 4vw, 1.5rem);
+        border-width: 5px;
       }
 
       .event-meta {
@@ -4179,6 +4199,14 @@
   </main>
 
   <script>
+    // iOS Safari'де 100svh туура эмес — реалдуу бийиктикти CSS variable катары жазуу
+    function setViewportHeight() {
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    }
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+
     const musicButtons = document.querySelectorAll(".music-button, .music-control");
     const musicPlayer = document.querySelector("#background-music");
     const musicStatus = document.querySelector("#music-status");
