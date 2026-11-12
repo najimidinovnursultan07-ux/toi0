@@ -1064,6 +1064,8 @@
       perspective-origin: 50% 52%;
       filter: drop-shadow(0 26px 35px rgba(0, 0, 0, .7));
       animation: gate-arrive .9s ease both;
+      /* iOS Safari stacking context fix */
+      isolation: isolate;
     }
 
     .gate-welcome {
@@ -3998,14 +4000,16 @@
           <span class="gate-handle">❧</span>
         </div>
 
-        <span class="gate-plaque">МААРАКЕГЕ ЧАКЫРУУ</span>
-        <span class="gate-sconce" aria-hidden="true">✦</span>
-        <button class="gate-lock" id="open-invitation" type="button" aria-label="Дарбазаны ачуу">60</button>
-        <p class="gate-prompt">ДАРБАЗАНЫ АЧУУ ҮЧҮН БАСЫҢЫЗ</p>
-        <p class="gate-opening-caption">СИЗ ҮЧҮН АТАЙЫН ЧАКЫРУУ</p>
         <span class="gate-floor" aria-hidden="true"></span>
         <span class="gate-shadow" aria-hidden="true"></span>
       </div>
+
+      <!-- gate-stage дан чыгарылды — preserve-3d + overflow:hidden конфликтин чечүү -->
+      <span class="gate-plaque">МААРАКЕГЕ ЧАКЫРУУ</span>
+      <span class="gate-sconce" aria-hidden="true">✦</span>
+      <button class="gate-lock" id="open-invitation" type="button" aria-label="Дарбазаны ачуу">60</button>
+      <p class="gate-prompt">ДАРБАЗАНЫ АЧУУ ҮЧҮН БАСЫҢЫЗ</p>
+      <p class="gate-opening-caption">СИЗ ҮЧҮН АТАЙЫН ЧАКЫРУУ</p>
     </div>
   </section>
   <button class="music-control" id="music-toggle-top" type="button" aria-pressed="false">♫ Музыканы күйгүзүү</button>
